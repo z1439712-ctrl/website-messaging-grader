@@ -4,67 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Website Messaging Grader</title>
-    <script src="https://tailwindcss.com"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0f172a; color: #f8fafc; min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 720px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 32px; }
+        .badge { background: rgba(99, 102, 241, 0.2); color: #818cf8; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-size: 32px; margin: 12px 0 8px; color: #ffffff; }
+        .subtitle { color: #94a3b8; font-size: 15px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        label { display: block; font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px; }
+        input, textarea { width: 100%; background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 12px; color: #f8fafc; font-size: 14px; outline: none; }
+        input:focus, textarea:focus { border-color: #6366f1; }
+        .actions { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+        .btn-link { background: none; border: none; color: #818cf8; text-decoration: underline; cursor: pointer; font-size: 13px; }
+        .btn-primary { background: #4f46e5; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; font-size: 14px; transition: 0.2s; }
+        .btn-primary:hover { background: #4338ca; }
+        .hidden { display: none; }
+        .score-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; padding-bottom: 20px; margin-bottom: 20px; }
+        .score-circle { width: 80px; height: 80px; border-radius: 50%; border: 4px solid #6366f1; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; background: #0f172a; }
+        h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .rose { color: #fb7185; }
+        .emerald { color: #34d399; }
+        .tag { display: inline-block; background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 12px; margin: 0 6px 6px 0; }
+        ul { padding-left: 20px; color: #cbd5e1; font-size: 14px; line-height: 1.6; }
+        li { margin-bottom: 8px; }
+    </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
-
-    <div class="max-w-3xl mx-auto px-4 py-12">
-        <!-- Header -->
-        <div class="text-center mb-10">
-            <span class="bg-indigo-600/20 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Conversion Optimizer</span>
-            <h1 class="text-3xl md:text-4xl font-bold mt-3 text-white">Website Messaging Grader</h1>
-            <p class="text-slate-400 mt-2">Paste your landing page headline or sales copy below to detect generic AI buzzwords and boost conversions.</p>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="badge">Conversion Optimizer</span>
+            <h1>Website Messaging Grader</h1>
+            <p class="subtitle">Paste your landing page headline or sales copy below to detect generic AI buzzwords and boost conversions.</p>
         </div>
 
-        <!-- Optional API Key Input -->
-        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-4 mb-6">
-            <label class="block text-xs font-medium text-slate-400 mb-1">Gemini API Key (Optional - Leave blank for instant built-in analysis)</label>
-            <input type="password" id="apiKeyInput" placeholder="Paste your free Google AI Studio API Key here..." 
-                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+        <div class="card">
+            <label>Gemini API Key (Optional - Leave blank for instant built-in analysis)</label>
+            <input type="password" id="apiKeyInput" placeholder="Paste your free Google AI Studio API Key here...">
         </div>
 
-        <!-- Input Box -->
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
-            <label for="copyInput" class="block text-sm font-medium text-slate-300 mb-2">Landing Page Copy / Headline</label>
-            <textarea id="copyInput" rows="5" 
-                placeholder="Example: Welcome to NextGen Solutions. We leverage cutting-edge AI to revolutionize your workflow and unlock seamless synergy..."
-                class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
-            
-            <div class="mt-4 flex justify-between items-center">
-                <button onclick="loadSample()" class="text-xs text-indigo-400 hover:text-indigo-300 underline">Load Bad Sample Copy</button>
-                <button onclick="analyzeCopy()" id="analyzeBtn"
-                    class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
-                    Grade My Copy
-                </button>
+        <div class="card">
+            <label for="copyInput">Landing Page Copy / Headline</label>
+            <textarea id="copyInput" rows="5" placeholder="Example: Welcome to NextGen Solutions. We leverage cutting-edge AI to revolutionize your workflow..."></textarea>
+            <div class="actions">
+                <button onclick="loadSample()" class="btn-link">Load Bad Sample Copy</button>
+                <button onclick="analyzeCopy()" id="analyzeBtn" class="btn-primary">Grade My Copy</button>
             </div>
         </div>
 
-        <!-- Results Section -->
-        <div id="resultBox" class="hidden mt-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
-            <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-700 pb-6 mb-6">
+        <div id="resultBox" class="card hidden">
+            <div class="score-header">
                 <div>
-                    <h2 class="text-xl font-bold text-white">Messaging Score</h2>
-                    <p id="verdictText" class="text-sm text-slate-400 mt-1">Analysis complete</p>
+                    <h2 style="font-size: 20px; margin-bottom: 4px;">Messaging Score</h2>
+                    <p id="verdictText" style="font-size: 14px; color: #94a3b8;">Analysis complete</p>
                 </div>
-                <div class="mt-4 md:mt-0 flex items-center justify-center w-24 h-24 rounded-full border-4 border-indigo-500 bg-slate-900">
-                    <span id="scoreDisplay" class="text-3xl font-extrabold text-white">0</span>
+                <div class="score-circle">
+                    <span id="scoreDisplay">0</span>
                 </div>
             </div>
 
-            <!-- Buzzwords Detected -->
-            <div class="mb-6">
-                <h3 class="text-sm font-semibold text-rose-400 uppercase tracking-wider mb-2">Generic AI Buzzwords Detected</h3>
-                <div id="buzzwordsList" class="flex flex-wrap gap-2"></div>
+            <div style="margin-bottom: 20px;">
+                <h3 class="rose">Generic AI Buzzwords Detected</h3>
+                <div id="buzzwordsList"></div>
             </div>
 
-            <!-- Actionable Feedback -->
             <div>
-                <h3 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-2">How to Fix & Increase Sales</h3>
-                <ul id="tipsList" class="space-y-2 text-sm text-slate-300 list-disc pl-5"></ul>
+                <h3 class="emerald">How to Fix & Increase Sales</h3>
+                <ul id="tipsList"></ul>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
