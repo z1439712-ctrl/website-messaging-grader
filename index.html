@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Website Messaging Grader</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+
+    <div class="max-w-3xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <span class="bg-indigo-600/20 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Conversion Optimizer</span>
+            <h1 class="text-3xl md:text-4xl font-bold mt-3 text-white">Website Messaging Grader</h1>
+            <p class="text-slate-400 mt-2">Paste your landing page headline or sales copy below to detect generic AI buzzwords and boost conversions.</p>
+        </div>
+
+        <!-- Optional API Key Input -->
+        <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-4 mb-6">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Gemini API Key (Optional - Leave blank for instant built-in analysis)</label>
+            <input type="password" id="apiKeyInput" placeholder="Paste your free Google AI Studio API Key here..." 
+                class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <!-- Input Box -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <label for="copyInput" class="block text-sm font-medium text-slate-300 mb-2">Landing Page Copy / Headline</label>
+            <textarea id="copyInput" rows="5" 
+                placeholder="Example: Welcome to NextGen Solutions. We leverage cutting-edge AI to revolutionize your workflow and unlock seamless synergy..."
+                class="w-full bg-slate-900 border border-slate-700 rounded-xl p-4 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"></textarea>
+            
+            <div class="mt-4 flex justify-between items-center">
+                <button onclick="loadSample()" class="text-xs text-indigo-400 hover:text-indigo-300 underline">Load Bad Sample Copy</button>
+                <button onclick="analyzeCopy()" id="analyzeBtn"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-xl transition shadow-lg shadow-indigo-600/30">
+                    Grade My Copy
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultBox" class="hidden mt-8 bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+            <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-700 pb-6 mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-white">Messaging Score</h2>
+                    <p id="verdictText" class="text-sm text-slate-400 mt-1">Analysis complete</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex items-center justify-center w-24 h-24 rounded-full border-4 border-indigo-500 bg-slate-900">
+                    <span id="scoreDisplay" class="text-3xl font-extrabold text-white">0</span>
+                </div>
+            </div>
+
+            <!-- Buzzwords Detected -->
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-rose-400 uppercase tracking-wider mb-2">Generic AI Buzzwords Detected</h3>
+                <div id="buzzwordsList" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Actionable Feedback -->
+            <div>
+                <h3 class="text-sm font-semibold text-emerald-400 uppercase tracking-wider mb-2">How to Fix & Increase Sales</h3>
+                <ul id="tipsList" class="space-y-2 text-sm text-slate-300 list-disc pl-5"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
